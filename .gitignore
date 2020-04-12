@@ -1,0 +1,7 @@
+scratch.txt
+pdfminer.six-develop/
+*.jpg
+*.pdf
+.vscode
+/Results
+
