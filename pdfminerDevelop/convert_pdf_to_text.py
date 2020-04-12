@@ -11,7 +11,7 @@ storage_client = storage.Client()
 
 
 def get_ancestries(data):
-    print(f'Starting analysis...')
+    print(f'Starting ancestry analysis...')
     file_data = data
 
     file_name = file_data['name']
@@ -38,7 +38,6 @@ def __extract_pdf_as_text(current_blob):
     # Open the PDF file and check for ancestry terms
     text = high_level.extract_text(temp_local_filename)
 
-    # Option 3
     ancestries = ['aboriginal australian', 'african american', 'afro-caribbean',
                   'afican', 'asian', 'central asian', 'circumpolar peoples',
                   'east asian', 'european', 'greater middle eastern', 'north arican',
@@ -55,13 +54,11 @@ def __extract_pdf_as_text(current_blob):
         for index, sentence in enumerate(lc_lines):
             # Check if sentence has at least a partial match
             if ancestry in sentence:
-                # print(f'\nPart match  -- A: {ancestry} -- L: {lc_lines[index]}')
                 file.write(
                     '\nPart match to Ancestry term: ' + ancestry + ' -- Line: ' + lc_lines[index])
                 # Confirm exact match to word in sentence
                 for word in lc_lines[index].split(' '):
                     if ancestry == word:
-                        # print(f'Exact match -- A: {ancestry} -- L: {lc_lines[index]}')
                         file.write(
                             '\nExact match to Ancestry term: ' + ancestry + ' -- Line: ' + lc_lines[index])
                 file.write('\n')
@@ -71,7 +68,8 @@ def __extract_pdf_as_text(current_blob):
     # [START PubSub Code]
     # Upload result to a second bucket, to avoid re-triggering the function.
     # You could instead re-upload it to the same bucket + tell your function
-    # to ignore files marked as blurred (e.g. those with a "blurred" prefix)
+    # to ignore files marked as blurred (e.g. those with a "blurred" prefix,
+    # original GCP tutorial or "results-" in this script.)
 
     output_bucket_name = 'results-' + file_name.split('.')[0] + '.txt'
 
